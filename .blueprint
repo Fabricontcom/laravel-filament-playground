@@ -1,0 +1,12 @@
+created:
+    - database/factories/PostFactory.php
+    - database/factories/TopicFactory.php
+    - database/migrations/2024_10_24_090650_create_posts_table.php
+    - database/migrations/2024_10_24_090651_create_topics_table.php
+    - database/migrations/2024_10_24_090652_create_post_topic_table.php
+    - app/Models/Post.php
+    - app/Models/Topic.php
+models:
+    User: {  }
+    Post: { title: 'string:400', content: longtext, published_at: 'nullable timestamp', topic_id: 'unsignedInteger nullable', relationships: { belongsToMany: Topic } }
+    Topic: { name: string, post_id: 'unsignedInteger nullable', relationships: { belongsToMany: Post } }

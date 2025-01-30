@@ -16,13 +16,14 @@
             </button>
           </div>
           <div class="hidden lg:flex lg:gap-x-12">
-            <a href="/" class="text-sm font-semibold leading-6 text-gray-900">Home</a>
+            <a href="{{ route('home') }}" class="text-sm font-semibold leading-6 text-gray-900">Home</a>
             @foreach (App\Models\Navigation::orderBy('sort')->get() as $navitem)
-                <a href="/{{ $navitem->url }}" class="text-sm font-semibold leading-6 text-gray-900">{{ $navitem->title }}</a>
+                <a href="{{ route('posts.show', $navitem->url) }}" class="text-sm font-semibold leading-6 text-gray-900">{{ $navitem->title }}</a>
             @endforeach
           </div>
           <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
+            <a class="mr-6 text-sm font-semibold leading-6 text-gray-900" href="{{ route('locale.switch', 'en') }}">en</a>
+            <a class="text-sm font-semibold leading-6 text-gray-900" href="{{ route('locale.switch', 'it') }}">it</a>
           </div>
         </nav>
         <!-- Mobile menu, show/hide based on menu open state. -->

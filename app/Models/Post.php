@@ -9,11 +9,13 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Translatable\HasTranslations;
 
 class Post extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
+    use HasTranslations;
 
     /**
      * The attributes that are mass assignable.
@@ -39,6 +41,8 @@ class Post extends Model implements HasMedia
         'topic_id' => 'integer',
         'flexiblecontent' => 'json',
     ];
+
+    public $translatable = ['flexiblecontent'];
 
     public function topics(): BelongsToMany
     {

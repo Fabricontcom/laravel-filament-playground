@@ -20,12 +20,16 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Set;
+use Illuminate\Http\File;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Image\Image;
+use Filament\Resources\Concerns\Translatable;
 
 class PostResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = Post::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -34,7 +38,7 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
-
+                Forms\Components\TextInput::make('title'),
                 Section::make('col 1')
                     ->description('Lorem upsum dolor sit amet')
                     ->schema([
@@ -68,6 +72,7 @@ class PostResource extends Resource
                                     SpatieMediaLibraryFileUpload::make('avatar')
                                         ->collection('avatars')
                                         ->multiple()
+                                        ->panelLayout('grid')
                                         ->hintAction(
                                             Action::make('attachMedia')
                                                 ->icon('heroicon-m-clipboard')
@@ -78,15 +83,18 @@ class PostResource extends Resource
                                                         ->options(Media::query()->pluck('name', 'id'))
                                                         ->required(),
                                                 ])
-                                                ->action(function (Set $set, array $data, $record) {
+                                                ->action(function (Set $set, array $data, Media $item) {
                                                     //dd(Storage::url($data['mediaId']));
                                                     //$set('avatar', Media::where('id', $data['mediaId'])->first());
                                                     //dd(Media::where('id', $data['mediaId'])->first()->model);
                                                     //dd(Media::where('id', $data['mediaId'])->first()->getPath());
-                                                    Post::find(2)
+                                                    //dd(Media::where('id', $data['mediaId'])->first()->getPath());
+                                                    dd(Post::find(1)->getMedia('avatars'));
+                                                    //dd(Storage::get('01JBCGCW6M2KK5E6JA8KCR17MD.jpg'));
+                                                    /*Post::find(2)
                                                         ->addMediaFromUrl(Media::where('id', $data['mediaId'])->first()->getUrl())
-                                                        ->toMediaCollection();
-                                                    $set('avatar', Media::where('id', $data['mediaId'])->first()->model->avatar);
+                                                        ->toMediaCollection();*/
+                                                    $set('avatar', Post::find(1)->getMedia('avatars'));
                                                 })
                                             ),
                                         Forms\Components\TextInput::make('alt')
